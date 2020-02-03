@@ -1,0 +1,19 @@
+Docker version :19.03.1
+
+Stop Docker
+
+# systemctl stop docker
+# systemctl daemon-reload
+Add the following parameters to /lib/systemd/system/docker.service.
+
+FROM:
+ExecStart=/usr/bin/dockerd
+TO:
+ExecStart=/usr/bin/docker --data-root /lib/docker -H fd://
+Create a new directory and rsync the current docker data to new directory.
+
+# mkdir /lib/docker/
+# rsync -aqxP /var/lib/docker/ /lib/docker/
+Now, Docker Daemon can be started safely
+
+# systemctl start docker
